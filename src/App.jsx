@@ -173,6 +173,26 @@ const App = () => {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.details || data.error || '저장 실패');
+
+      // Netlify Forms에도 제출 (대시보드에서 확인 가능, bot-field는 빈 값으로 스팸 방지)
+      const netlifyPayload = new URLSearchParams({
+        'form-name': 'academy-nexo-order',
+        'bot-field': '',
+        customer_name: payload.customer_name,
+        phone_number: payload.phone_number,
+        org_name: payload.org_name,
+        address: payload.address,
+        order_summary: payload.order_summary,
+        mount_type: payload.mount_type,
+        elevator: payload.elevator,
+        payment: payload.payment,
+      });
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: netlifyPayload.toString(),
+      }).catch(() => {});
+
       alert('접수되었습니다. 24시간 내 연락드리겠습니다.');
       form.reset();
       setQty65(0); setQty75(0); setQty86(0);
