@@ -216,10 +216,10 @@ const App = () => {
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: 'url(/hero-bg.png)' }}
         />
-        <div className="absolute inset-0 bg-navy/70" />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-transparent to-navy/80" />
+        <div className="absolute inset-0 bg-navy/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/30 via-transparent to-navy/50" />
         <div className="max-w-4xl mx-auto px-4 md:px-6 relative z-10 text-center">
-          <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-4">
+          <p className="text-white font-semibold tracking-widest uppercase text-sm mb-4">
             2025 아카데미 美 디자인 공모전
           </p>
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
@@ -227,17 +227,23 @@ const App = () => {
             <br />
             <span className="text-gold">넥소가 함께했습니다.</span>
           </h1>
-          <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10">
-            대상 수상자에게 전해진 65인치 넥소 전자칠판의 감동,
-            <br className="hidden sm:block" />
-            이제 관계자 여러분께 <span className="text-gold font-semibold">특별한 혜택</span>으로 찾아갑니다.
-          </p>
+          <div className="max-w-2xl mx-auto mb-10 px-6 py-5 bg-white/30 border-2 border-white/50 rounded-xl">
+            <p className="text-white text-lg md:text-xl text-center" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.4)' }}>
+              대상 수상자에게 전해진 65인치 넥소 전자칠판의 감동,
+              <br className="hidden sm:block" />
+              이제 관계자 여러분께 <span className="text-gold font-semibold">특별한 혜택</span>으로 찾아갑니다.
+            </p>
+          </div>
           <button
             onClick={scrollToPrice}
             className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-xl text-lg font-bold shadow-lg shadow-accent/20 transition"
           >
             관계자 전용 특별가 확인하기
           </button>
+          <p className="mt-6 font-bold text-xl md:text-2xl lg:text-3xl tracking-wide">
+            <span className="text-gold">NEXO</span>
+            <span className="text-white"> × 아카데미 美 디자인 공모전</span>
+          </p>
         </div>
       </section>
 
@@ -411,7 +417,7 @@ const App = () => {
                 <CheckCircle className="w-6 h-6 text-gold shrink-0" />
                 <div>
                   <p className="text-white font-bold text-base md:text-lg">{item.label}</p>
-                  <p className="text-gold/80 text-xs mt-0.5">{item.sub}</p>
+                  <p className="text-gold text-xs mt-0.5">{item.sub}</p>
                 </div>
               </div>
             ))}
@@ -438,7 +444,7 @@ const App = () => {
       <section id="price" className="py-16 md:py-24 bg-[#2A3440] scroll-mt-20">
         <div className="max-w-5xl mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
-            <p className="text-accent font-semibold text-sm uppercase tracking-wider mb-3">2026.02.03 아카데미 디자인 공모전 수상자</p>
+            <p className="text-accent font-semibold text-sm uppercase tracking-wider mb-3">2026.02.03 아카데미 디자인 공모전</p>
             <h2 className="text-3xl md:text-4xl font-bold text-white">넥소 전자칠판 관계자 전용 특별가</h2>
           </div>
 

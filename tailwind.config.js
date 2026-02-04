@@ -14,9 +14,9 @@ export default {
         navy: '#0f1729',
         navyLight: '#1e293b',
         navyMuted: '#334155',
-        gold: '#c9a227',
-        goldLight: '#e5c76b',
-        goldMuted: '#a68b1e',
+        gold: '#FFD700',
+        goldLight: '#FFE55C',
+        goldMuted: '#DAA520',
         nexoBlue: '#1e5f8a',
         nexoBlueLight: '#2563eb',
         accent: '#e85d2a', // CTA 강렬한 오렌지
