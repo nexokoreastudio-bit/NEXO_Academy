@@ -317,6 +317,50 @@ const App = () => {
               </p>
             </div>
           </div>
+
+          {/* 이미지 & 시연 영상 */}
+          <div className="mt-14">
+            <p className="text-gold font-semibold text-sm uppercase tracking-wider mb-6 text-center">이미지 & 시연</p>
+            <div className="grid md:grid-cols-2 gap-6 mb-6">
+              <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50">
+                <img src="/Eshare_Pro.png" alt="Eshare 무선 미러링" className="w-full aspect-video object-cover" />
+                <div className="p-4">
+                  <h4 className="font-bold text-gold mb-1">Eshare · 3초 연결</h4>
+                  <p className="text-white/70 text-sm">9대 동시 화면 공유. Windows·Mac·iOS·Android.</p>
+                </div>
+              </div>
+              <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50">
+                <img src="/nexo-problem-statement.png" alt="UMIND 판서" className="w-full aspect-video object-cover" />
+                <div className="p-4">
+                  <h4 className="font-bold text-gold mb-1">UMIND · PDF 위에 판서</h4>
+                  <p className="text-white/70 text-sm">2D·3D 그래프, 도형, 자. 디자인 피드백에 최적.</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="md:col-span-2">
+                <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50">
+                  <div className="aspect-video bg-black">
+                    <iframe src="https://www.youtube.com/embed/Ci1uy-5eEJg" title="넥소 전자칠판 시연" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-bold text-gold mb-1">넥소 전자칠판 시연</h4>
+                    <p className="text-white/70 text-sm">핵심 기능 한눈에 확인</p>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50 h-full">
+                  <img src="/nexo-classroom.png" alt="교실 수업" className="w-full aspect-video object-cover" />
+                  <div className="p-4">
+                    <h4 className="font-bold text-gold mb-1">교실 수업</h4>
+                    <p className="text-white/70 text-sm">자·도형·마인드맵·스티커 메모</p>
+                    <p className="text-white/40 text-xs mt-2">* 고객의 이해를 돕기 위해 AI 생성 이미지를 사용하였습니다.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
