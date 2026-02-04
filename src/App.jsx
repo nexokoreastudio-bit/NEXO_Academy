@@ -338,6 +338,38 @@ const App = () => {
             </div>
           </div>
 
+          {/* 모델 사이즈 및 추천 (이미지 & 시연 위) - 원본 이미지, 인치별 크기로 표현 */}
+          <div className="mt-14">
+            <p className="text-gold font-semibold text-sm uppercase tracking-wider mb-4 text-center">모델 사이즈 및 추천</p>
+            <p className="text-white/80 text-center text-sm mb-8 max-w-2xl mx-auto">공간과 인원에 맞는 인치를 선택하세요. 넥소 전자칠판은 65·75·86인치 세 가지 사이즈로 제공됩니다.</p>
+            <div className="space-y-12">
+              <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                <img src="/nexo-65.png" alt="65인치 넥소 전자칠판" className="w-full max-w-sm mx-auto md:max-w-[280px] md:mx-0 object-contain shrink-0" />
+                <div>
+                  <h4 className="font-bold text-gold text-xl mb-2">65인치</h4>
+                  <p className="text-white/80 text-sm mb-1">추천 공간: 8~10평 미만</p>
+                  <p className="text-white/70 text-sm">5~8명 · 소규모 교실, 스터디룸, 디자인 실습실</p>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                <img src="/nexo-75.png" alt="75인치 넥소 전자칠판" className="w-full max-w-sm mx-auto md:max-w-[280px] md:mx-0 object-contain shrink-0" />
+                <div>
+                  <h4 className="font-bold text-gold text-xl mb-2">75인치</h4>
+                  <p className="text-white/80 text-sm mb-1">추천 공간: 10~15평</p>
+                  <p className="text-white/70 text-sm">10~15명 · 중규모 강의실, 학원 교실, 회의실</p>
+                </div>
+              </div>
+              <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
+                <img src="/nexo-86.png" alt="86인치 넥소 전자칠판" className="w-full max-w-sm mx-auto md:max-w-[280px] md:mx-0 object-contain shrink-0" />
+                <div>
+                  <h4 className="font-bold text-gold text-xl mb-2">86인치</h4>
+                  <p className="text-white/80 text-sm mb-1">추천 공간: 15평 이상</p>
+                  <p className="text-white/70 text-sm">20명 이상 · 대형 강의실, 세미나실, 대회장</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* 이미지 & 시연 영상 */}
           <div className="mt-14">
             <p className="text-gold font-semibold text-sm uppercase tracking-wider mb-6 text-center">이미지 & 시연</p>
@@ -357,26 +389,30 @@ const App = () => {
                 </div>
               </div>
             </div>
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="md:col-span-2">
-                <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50">
+            <div className="grid md:grid-cols-3 gap-6 mb-6">
+              {[
+                { id: 'Ci1uy-5eEJg', title: '넥소 전자칠판 시연', desc: '핵심 기능 한눈에' },
+                { id: 'hSFAHFgniVU', title: '3초 무선 미러링', desc: '케이블 없이 연결' },
+                { id: 'bLcOVmdYWzM', title: '폰 쉐어 1위 기능', desc: '사진 → 칠판 즉시' },
+              ].map((v) => (
+                <div key={v.id} className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50">
                   <div className="aspect-video bg-black">
-                    <iframe src="https://www.youtube.com/embed/Ci1uy-5eEJg" title="넥소 전자칠판 시연" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
+                    <iframe src={`https://www.youtube.com/embed/${v.id}`} title={v.title} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen className="w-full h-full" />
                   </div>
                   <div className="p-4">
-                    <h4 className="font-bold text-gold mb-1">넥소 전자칠판 시연</h4>
-                    <p className="text-white/70 text-sm">핵심 기능 한눈에 확인</p>
+                    <h4 className="font-bold text-gold mb-1">{v.title}</h4>
+                    <p className="text-white/70 text-sm">{v.desc}</p>
                   </div>
                 </div>
-              </div>
-              <div>
-                <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50 h-full">
-                  <img src="/nexo-classroom.png" alt="교실 수업" className="w-full aspect-video object-cover" />
-                  <div className="p-4">
-                    <h4 className="font-bold text-gold mb-1">교실 수업</h4>
-                    <p className="text-white/70 text-sm">자·도형·마인드맵·스티커 메모</p>
-                    <p className="text-white/40 text-xs mt-2">* 고객의 이해를 돕기 위해 AI 생성 이미지를 사용하였습니다.</p>
-                  </div>
+              ))}
+            </div>
+            <div className="max-w-md mx-auto">
+              <div className="bg-navyLight rounded-2xl overflow-hidden border border-navyMuted/50">
+                <img src="/nexo-classroom.png" alt="교실 수업" className="w-full aspect-video object-cover" />
+                <div className="p-4">
+                  <h4 className="font-bold text-gold mb-1">교실 수업</h4>
+                  <p className="text-white/70 text-sm">수학 3D·도형 시각화, 수식 입력과 판서</p>
+                  <p className="text-white/40 text-xs mt-2">* 고객의 이해를 돕기 위해 AI 생성 이미지를 사용하였습니다.</p>
                 </div>
               </div>
             </div>
