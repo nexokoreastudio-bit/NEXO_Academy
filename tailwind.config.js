@@ -9,6 +9,17 @@ export default {
       fontFamily: {
         sans: ['Pretendard', 'system-ui', 'sans-serif'],
       },
+      fontSize: {
+        'body': ['1.0625rem', { lineHeight: '1.75' }],
+        'lead': ['1.125rem', { lineHeight: '1.8' }],
+      },
+      lineHeight: {
+        'relaxed': '1.75',
+        'loose': '2',
+      },
+      letterSpacing: {
+        'comfort': '0.02em',
+      },
       colors: {
         // Premium: 다크 네이비(신뢰) + 골드(권위) + 넥소 블루
         navy: '#0f1729',

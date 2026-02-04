@@ -6,4 +6,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 1.0625rem; /* 17px - 시원한 가독 */
+  line-height: 1.75;
+  letter-spacing: 0.01em;
 }
