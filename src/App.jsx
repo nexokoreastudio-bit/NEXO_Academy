@@ -18,6 +18,30 @@ const scrollToBenefit = () => {
   document.getElementById('benefit')?.scrollIntoView({ behavior: 'smooth' });
 };
 
+const scrollToOrder = () => {
+  document.getElementById('order')?.scrollIntoView({ behavior: 'smooth' });
+};
+
+const mountOptions = [
+  { value: 'stand', label: '이동형 스탠드' },
+  { value: 'wall_concrete', label: '벽부착-콘크리트' },
+  { value: 'wall_gypsum', label: '벽부착-합판/석고보드' },
+  { value: 'wall_etc', label: '벽부착-기타' },
+];
+
+const elevatorOptions = [
+  { value: 'yes', label: '있음' },
+  { value: 'ladder_ok', label: '없음(사다리차 가능)' },
+  { value: 'ladder_no', label: '없음(사다리차 불가능)' },
+];
+
+const paymentOptions = [
+  { value: 'transfer', label: '계좌이체(세금계산서 or 현금영수증)' },
+  { value: 'card', label: '카드' },
+  { value: 'rental', label: '렌탈(추가 서류 필요)' },
+  { value: 'etc', label: '기타' },
+];
+
 // 2026.02.28 23:59:59 까지 카운트다운
 const END_DATE = new Date('2026-02-28T23:59:59+09:00');
 
@@ -93,6 +117,70 @@ const zeroInterestCards = [
 
 const App = () => {
   const countdown = useCountdown();
+  const [qty65, setQty65] = useState(0);
+  const [qty75, setQty75] = useState(0);
+  const [qty86, setQty86] = useState(0);
+  const [mountType, setMountType] = useState('');
+  const [elevator, setElevator] = useState('');
+  const [payment, setPayment] = useState('');
+
+  const handleOrderSubmit = async (e) => {
+    e.preventDefault();
+    const agree = document.getElementById('privacy-agree');
+    if (!agree?.checked) { alert('개인정보 제3자 제공에 동의해주세요.'); return; }
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const customerName = (formData.get('customer_name') || '').trim();
+    const phoneNumber = (formData.get('phone_number') || '').trim();
+    const orgName = (formData.get('org_name') || '').trim();
+    const address = (formData.get('address') || '').trim();
+    const qtyEtc = (formData.get('qty_etc') || '').trim();
+
+    if (!customerName) { alert('성함을 입력해주세요.'); return; }
+    if (!phoneNumber) { alert('연락처를 입력해주세요.'); return; }
+    if (!orgName) { alert('공부방 / 학원 상호명을 입력해주세요.'); return; }
+    if (!address) { alert('설치할 주소를 입력해주세요.'); return; }
+
+    const orderParts = [];
+    if (qty65 > 0) orderParts.push(`65인치 ${qty65}대`);
+    if (qty75 > 0) orderParts.push(`75인치 ${qty75}대`);
+    if (qty86 > 0) orderParts.push(`86인치 ${qty86}대`);
+    if (qtyEtc) orderParts.push(`그외 ${qtyEtc}`);
+
+    if (orderParts.length === 0) { alert('전자칠판 주문 수량을 선택해주세요.'); return; }
+    if (!mountType) { alert('설치 방법을 선택해주세요.'); return; }
+    if (!elevator) { alert('엘리베이터 여부를 선택해주세요.'); return; }
+    if (!payment) { alert('결제 방식을 선택해주세요.'); return; }
+
+    const orderSummary = orderParts.join(', ');
+    const payload = {
+      customer_name: customerName,
+      phone_number: phoneNumber,
+      org_name: orgName,
+      address,
+      order_summary: orderSummary,
+      mount_type: mountOptions.find(o => o.value === mountType)?.label || mountType,
+      elevator: elevatorOptions.find(o => o.value === elevator)?.label || elevator,
+      payment: paymentOptions.find(o => o.value === payment)?.label || payment,
+    };
+
+    try {
+      const res = await fetch('/.netlify/functions/save-to-sheets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.details || data.error || '저장 실패');
+      alert('접수되었습니다. 24시간 내 연락드리겠습니다.');
+      form.reset();
+      setQty65(0); setQty75(0); setQty86(0);
+      setMountType(''); setElevator(''); setPayment('');
+    } catch (err) {
+      alert(err.message || '오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-navy text-white overflow-x-hidden font-sans">
@@ -107,6 +195,7 @@ const App = () => {
             <a href="#story" className="text-white/70 hover:text-gold text-sm font-medium transition">공모전 스토리</a>
             <a href="#why" className="text-white/70 hover:text-gold text-sm font-medium transition">왜 넥소인가</a>
             <a href="#price" className="text-white/70 hover:text-gold text-sm font-medium transition">특별가</a>
+            <a href="#order" className="text-white/70 hover:text-gold text-sm font-medium transition">견적 신청</a>
             <a href="tel:032-569-5771" className="text-gold hover:text-goldLight text-sm flex items-center gap-1 font-semibold">
               <Phone className="w-4 h-4" /> 032.569.5771
             </a>
@@ -446,14 +535,109 @@ const App = () => {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-white/90 font-semibold mb-2">대상 수상자(미상)가 받은 그 제품을, 관계자라면 월 5만원대에 소유할 수 있습니다.</p>
-            <button
-              onClick={() => window.location.href = 'tel:032-569-5771'}
-              className="bg-accent hover:bg-accent/90 text-white px-8 py-4 rounded-xl text-lg font-bold inline-flex items-center gap-2"
-            >
-              <Phone className="w-5 h-5" /> 상담 및 견적 문의
-            </button>
+            <p className="text-white/90 font-semibold">대상 수상자(미상)가 받은 그 제품을, 관계자라면 월 5만원대에 소유할 수 있습니다.</p>
           </div>
+        </div>
+      </section>
+
+      {/* 주문 접수 폼 */}
+      <section id="order" className="py-16 md:py-20 bg-navyLight scroll-mt-20">
+        <div className="max-w-xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">견적 및 상담 신청</h2>
+            <p className="text-white/70 text-sm">관계자 전용 특별가 견적을 받아보세요</p>
+          </div>
+          <form name="academy-nexo-order" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={handleOrderSubmit} className="space-y-5 bg-navy rounded-2xl p-6 md:p-8 border border-navyMuted/50">
+            <input type="hidden" name="form-name" value="academy-nexo-order" />
+            <input type="hidden" name="bot-field" />
+
+            <div><label className="block text-sm font-bold text-white/90 mb-1">1. 성함 *</label><input type="text" name="customer_name" required maxLength={100} placeholder="성함 입력" className="w-full px-4 py-3 rounded-xl border border-navyMuted/50 bg-navyLight text-white placeholder-white/40 focus:ring-2 focus:ring-gold/30" /></div>
+
+            <div><label className="block text-sm font-bold text-white/90 mb-1">2. 연락처 (010-0000-0000) *</label><input type="tel" name="phone_number" required maxLength={100} placeholder="연락처 입력" className="w-full px-4 py-3 rounded-xl border border-navyMuted/50 bg-navyLight text-white placeholder-white/40 focus:ring-2 focus:ring-gold/30" /></div>
+
+            <div><label className="block text-sm font-bold text-white/90 mb-1">3. 학원 / 기관 상호명 *</label><input type="text" name="org_name" required maxLength={2000} placeholder="상호명 입력" className="w-full px-4 py-3 rounded-xl border border-navyMuted/50 bg-navyLight text-white placeholder-white/40 focus:ring-2 focus:ring-gold/30" /></div>
+
+            <div><label className="block text-sm font-bold text-white/90 mb-1">4. 설치할 주소 (정확한 주소) *</label><input type="text" name="address" required maxLength={100} placeholder="주소 입력" className="w-full px-4 py-3 rounded-xl border border-navyMuted/50 bg-navyLight text-white placeholder-white/40 focus:ring-2 focus:ring-gold/30" /></div>
+
+            <div>
+              <label className="block text-sm font-bold text-white/90 mb-2">5. 전자칠판 주문 수량 *</label>
+              <p className="text-xs text-white/50 mb-2">인치별 대수를 선택하세요.</p>
+              <div className="grid grid-cols-3 gap-3 mb-2">
+                <div className="bg-navyLight rounded-xl p-3 border border-navyMuted/50">
+                  <span className="block text-xs font-medium text-white/70 mb-1">65인치</span>
+                  <select name="qty_65" value={qty65} onChange={(e) => setQty65(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border border-navyMuted/50 bg-navyLight text-white text-sm">
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <option key={n} value={n}>{n}대</option>)}
+                  </select>
+                </div>
+                <div className="bg-navyLight rounded-xl p-3 border border-navyMuted/50">
+                  <span className="block text-xs font-medium text-white/70 mb-1">75인치</span>
+                  <select name="qty_75" value={qty75} onChange={(e) => setQty75(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border border-navyMuted/50 bg-navyLight text-white text-sm">
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <option key={n} value={n}>{n}대</option>)}
+                  </select>
+                </div>
+                <div className="bg-navyLight rounded-xl p-3 border border-navyMuted/50">
+                  <span className="block text-xs font-medium text-white/70 mb-1">86인치</span>
+                  <select name="qty_86" value={qty86} onChange={(e) => setQty86(Number(e.target.value))} className="w-full px-3 py-2 rounded-lg border border-navyMuted/50 bg-navyLight text-white text-sm">
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => <option key={n} value={n}>{n}대</option>)}
+                  </select>
+                </div>
+              </div>
+              <input type="text" name="qty_etc" maxLength={200} placeholder="그외 (직접 입력)" className="w-full px-4 py-2 rounded-xl border border-navyMuted/50 bg-navyLight text-white placeholder-white/40 text-sm" />
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-white/90 mb-2">6. 설치 방법 *</label>
+              <p className="text-xs text-white/50 mb-2">벽부착 시 벽상태 확인이 필요합니다.</p>
+              <div className="space-y-2">
+                {mountOptions.map((opt) => (
+                  <label key={opt.value} className="flex items-center gap-2 cursor-pointer text-white/90 text-sm">
+                    <input type="radio" name="mount_type" value={opt.value} checked={mountType === opt.value} onChange={() => setMountType(opt.value)} className="text-gold accent-gold" />
+                    <span>{opt.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-white/90 mb-2">7. 엘리베이터 *</label>
+              <div className="space-y-2">
+                {elevatorOptions.map((opt) => (
+                  <label key={opt.value} className="flex items-center gap-2 cursor-pointer text-white/90 text-sm">
+                    <input type="radio" name="elevator" value={opt.value} checked={elevator === opt.value} onChange={() => setElevator(opt.value)} className="text-gold accent-gold" />
+                    <span>{opt.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold text-white/90 mb-2">8. 결제 방식 *</label>
+              <div className="space-y-2">
+                {paymentOptions.map((opt) => (
+                  <label key={opt.value} className="flex items-center gap-2 cursor-pointer text-white/90 text-sm">
+                    <input type="radio" name="payment" value={opt.value} checked={payment === opt.value} onChange={() => setPayment(opt.value)} className="text-gold accent-gold" />
+                    <span>{opt.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="bg-navyLight rounded-xl p-4 border border-navyMuted/50">
+              <label className="block text-sm font-bold text-white/90 mb-2">9. 개인정보 제3자 제공 동의 *</label>
+              <div className="text-xs text-white/60 space-y-1 mb-3">
+                <p><strong>제공받는 자:</strong> (주)넥소</p>
+                <p><strong>이용 목적:</strong> 마케팅 및 구매안내</p>
+                <p><strong>제공 항목:</strong> 이름, 연락처, 상호명, 주소</p>
+                <p><strong>보유 및 이용기간:</strong> 접수 후 2년</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <input type="checkbox" id="privacy-agree" required className="mt-1 accent-gold" />
+                <label htmlFor="privacy-agree" className="text-xs text-white/70">위 내용을 확인했으며, 개인정보 제3자 제공에 동의합니다. (필수)</label>
+              </div>
+            </div>
+
+            <button type="submit" className="w-full bg-accent text-white font-bold py-4 rounded-xl hover:bg-accent/90 transition">무료 상담 및 견적 신청</button>
+          </form>
         </div>
       </section>
 
