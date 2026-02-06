@@ -126,11 +126,20 @@ const App = () => {
   const [mountType, setMountType] = useState('');
   const [elevator, setElevator] = useState('');
   const [payment, setPayment] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
+    
+    // 중복 제출 방지
+    if (isSubmitting) return;
+    
     const agree = document.getElementById('privacy-agree');
-    if (!agree?.checked) { alert('개인정보 제3자 제공에 동의해주세요.'); return; }
+    if (!agree?.checked) { 
+      alert('개인정보 제3자 제공에 동의해주세요.'); 
+      return; 
+    }
+    
     const form = e.target;
     const formData = new FormData(form);
 
@@ -140,6 +149,7 @@ const App = () => {
     const address = (formData.get('address') || '').trim();
     const qtyEtc = (formData.get('qty_etc') || '').trim();
 
+    // 검증 (제출 전에 먼저 체크)
     if (!customerName) { alert('성함을 입력해주세요.'); return; }
     if (!phoneNumber) { alert('연락처를 입력해주세요.'); return; }
     if (!orgName) { alert('공부방 / 학원 상호명을 입력해주세요.'); return; }
@@ -155,6 +165,9 @@ const App = () => {
     if (!mountType) { alert('설치 방법을 선택해주세요.'); return; }
     if (!elevator) { alert('엘리베이터 여부를 선택해주세요.'); return; }
     if (!payment) { alert('결제 방식을 선택해주세요.'); return; }
+
+    // 검증 통과 후 제출 시작 - 즉시 버튼 비활성화
+    setIsSubmitting(true);
 
     const orderSummary = orderParts.join(', ');
     const payload = {
@@ -196,11 +209,16 @@ const App = () => {
         body: netlifyPayload.toString(),
       }).catch(() => {});
 
-      alert('접수되었습니다. 24시간 내 연락드리겠습니다.');
-      form.reset();
-      setQty65(0); setQty75(0); setQty86(0);
-      setMountType(''); setElevator(''); setPayment('');
+      // 성공 메시지는 약간 지연시켜서 버튼 상태 변경이 먼저 보이도록
+      setTimeout(() => {
+        alert('접수되었습니다. 24시간 내 연락드리겠습니다.');
+        form.reset();
+        setQty65(0); setQty75(0); setQty86(0);
+        setMountType(''); setElevator(''); setPayment('');
+        setIsSubmitting(false);
+      }, 100);
     } catch (err) {
+      setIsSubmitting(false);
       alert(err.message || '오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
@@ -774,7 +792,9 @@ const App = () => {
               </div>
             </div>
 
-            <button type="submit" className="w-full bg-accent text-white font-bold py-4 rounded-xl hover:bg-accent/90 transition">무료 상담 및 견적 신청</button>
+            <button type="submit" disabled={isSubmitting} className={`w-full bg-accent text-white font-bold py-4 rounded-xl transition ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent/90'}`}>
+              {isSubmitting ? '접수 중...' : '무료 상담 및 견적 신청'}
+            </button>
           </form>
         </div>
       </section>
