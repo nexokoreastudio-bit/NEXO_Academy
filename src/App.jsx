@@ -433,7 +433,6 @@ const App = () => {
                   <div className="border-t border-navyMuted/50 px-6 py-5 flex flex-col flex-1">
                     <h4 className="font-bold text-white text-lg mb-1">교실 수업</h4>
                     <p className="text-white/70 text-base leading-relaxed mb-2">수학 3D·도형 시각화, 수식 입력과 판서</p>
-                    <p className="text-white/40 text-xs mb-3">* 고객의 이해를 돕기 위해 AI 생성 이미지를 사용하였습니다.</p>
                     <span className="text-gold text-sm font-medium mt-auto">활용 사례 보기 →</span>
                   </div>
                 </div>
