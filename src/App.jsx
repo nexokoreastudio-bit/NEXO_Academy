@@ -369,9 +369,21 @@ const App = () => {
                   <img src="/nexo-65.png" alt="65인치 넥소 전자칠판" className="w-full max-w-sm mx-auto md:max-w-none md:w-full object-contain" />
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col justify-center md:pl-4">
-                  <h4 className="font-bold text-gold text-xl mb-2">65인치</h4>
-                  <p className="text-white/80 text-base leading-relaxed mb-1">추천 공간: 8~10평 미만</p>
-                  <p className="text-white/70 text-base leading-relaxed">5~8명 · 소규모 교실, 스터디룸, 디자인 실습실</p>
+                  <h4 className="font-bold text-gold text-xl md:text-2xl mb-3">65인치</h4>
+                  <div className="space-y-2">
+                    <p className="text-white/90 text-base leading-relaxed">
+                      <span className="font-semibold text-gold">추천 공간:</span> 8~10평 미만
+                    </p>
+                    <p className="text-white/80 text-base leading-relaxed">
+                      <span className="font-semibold text-gold">추천 인원:</span> 5~8명
+                    </p>
+                    <p className="text-white/70 text-sm leading-relaxed mt-3">
+                      소규모 교실, 스터디룸, 디자인 실습실
+                    </p>
+                    <p className="text-gold text-sm font-medium leading-relaxed mt-3 pt-3 border-t border-navyMuted/30">
+                      사이즈: 가로 1470.9mm × 세로 930mm
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
@@ -379,9 +391,21 @@ const App = () => {
                   <img src="/nexo-75.png" alt="75인치 넥소 전자칠판" className="w-full max-w-sm mx-auto md:max-w-none md:w-full object-contain" />
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col justify-center md:pl-4">
-                  <h4 className="font-bold text-gold text-xl mb-2">75인치</h4>
-                  <p className="text-white/80 text-base leading-relaxed mb-1">추천 공간: 10~15평</p>
-                  <p className="text-white/70 text-base leading-relaxed">10~15명 · 중규모 강의실, 학원 교실, 회의실</p>
+                  <h4 className="font-bold text-gold text-xl md:text-2xl mb-3">75인치</h4>
+                  <div className="space-y-2">
+                    <p className="text-white/90 text-base leading-relaxed">
+                      <span className="font-semibold text-gold">추천 공간:</span> 10~15평
+                    </p>
+                    <p className="text-white/80 text-base leading-relaxed">
+                      <span className="font-semibold text-gold">추천 인원:</span> 10~15명
+                    </p>
+                    <p className="text-white/70 text-sm leading-relaxed mt-3">
+                      중규모 강의실, 학원 교실, 회의실
+                    </p>
+                    <p className="text-gold text-sm font-medium leading-relaxed mt-3 pt-3 border-t border-navyMuted/30">
+                      사이즈: 가로 1692.1mm × 세로 1050mm
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
@@ -389,9 +413,21 @@ const App = () => {
                   <img src="/nexo-86.png" alt="86인치 넥소 전자칠판" className="w-full max-w-sm mx-auto md:max-w-none md:w-full object-contain" />
                 </div>
                 <div className="w-full md:w-1/2 flex flex-col justify-center md:pl-4">
-                  <h4 className="font-bold text-gold text-xl mb-2">86인치</h4>
-                  <p className="text-white/80 text-base leading-relaxed mb-1">추천 공간: 15평 이상</p>
-                  <p className="text-white/70 text-base leading-relaxed">20명 이상 · 대형 강의실, 세미나실, 대회장</p>
+                  <h4 className="font-bold text-gold text-xl md:text-2xl mb-3">86인치</h4>
+                  <div className="space-y-2">
+                    <p className="text-white/90 text-base leading-relaxed">
+                      <span className="font-semibold text-gold">추천 공간:</span> 15평 이상
+                    </p>
+                    <p className="text-white/80 text-base leading-relaxed">
+                      <span className="font-semibold text-gold">추천 인원:</span> 20명 이상
+                    </p>
+                    <p className="text-white/70 text-sm leading-relaxed mt-3">
+                      대형 강의실, 세미나실, 대회장
+                    </p>
+                    <p className="text-gold text-sm font-medium leading-relaxed mt-3 pt-3 border-t border-navyMuted/30">
+                      사이즈: 가로 1943.4mm × 세로 1193mm
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
